@@ -151,8 +151,11 @@ int dominant_operator(int l,int r)
 		if(!key)continue;
 		if(token[i].priority<=min_priority){min_priority=token[i].priority;oper=i;}
 	}
+	printf("%d\n",oper);
 	return oper;
 }
+
+
 uint32_t eval(int l,int r){
 	if(l>r){Assert(l>r,"something happened!\n");return 0;}
 	if(l==r){
