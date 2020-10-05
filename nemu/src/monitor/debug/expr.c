@@ -195,6 +195,7 @@ uint32_t eval(int l,int r){
 	else if(check_similar(l,r)==true)return eval(l+1,r-1);
 	else {
 		int op=dominant_operator(l,r);
+		printf("%d\n",op);
 		if(l==op||token[op].type==POINTOR||token[op].type==MINUS||token[op].type=='!')
 		{
 			uint32_t val=eval(l+1,r);
