@@ -56,15 +56,20 @@ static int cmd_info(char *args){
 	}
 	return 0;
 }
+
+
 static int cmd_p(char *args) {
 	uint32_t num;
 	bool suc;
 	num = expr (args,&suc);
+	printf("%d",suc);
 	if(suc)
 		printf ("0x%x:\t%d\n",num,num);
 	else assert(0);
 	return 0;
 }
+
+
 static int cmd_x(char *args) {
 	int n;
 	swaddr_t start_address;
