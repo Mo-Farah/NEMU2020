@@ -37,6 +37,44 @@ static int cmd_q(char *args) {
 }
 
 static int cmd_help(char *args);
+static int cmd_si(char *args) {
+	int num=0;
+	if(args == NULL) num=1;
+	else sscanf (args,"%d",&num);
+	cpu_exec(num);
+	return 0;
+}
+
+static int cmd_info(char *args){
+	int i;
+	if(args[0] =='r'){
+	for(i=R_EAX;i<=R_EDI;i++)
+	{
+		printf("%s\t0x%08x\n",regsl[i],reg_l(i));
+	}
+	printf("eip\t0x%08x\n",cpu.eip);
+	}
+	return 0;
+}
+static int cmd_x(char *args) {
+	int n;
+	swaddr_t start_address;
+	int i;
+	bool suc;
+	char *cmd=strtok(args," ");
+	sscanf(cmd,"%d",&n);
+	args=cmd+strlen(cmd)+1;
+	start_address=expr(args,&suc);
+	if(!suc)assert(1);
+	printf("0x%08x: ",start_address);
+	for(i=1;i<=n;i++)
+	{
+		printf("0x%08x ",swaddr_read(start_address,4));
+		start_address+=4;
+	}
+	printf("\n");
+	return 0;
+}
 
 static struct {
 	char *name;
@@ -46,6 +84,9 @@ static struct {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
+	{"si","Step into.",cmd_si},
+	{"info","for print watchpoint information.",cmd_info},
+	{"x","calculate",cmd_x}
 
 	/* TODO: Add more commands */
 
