@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ
+	NOTYPE = 256, EQ,NEQ,NUMBER,HNUMBER,REGISTER,AND,OR
 
 	/* TODO: Add more token types */
 
@@ -16,15 +16,28 @@ enum {
 static struct rule {
 	char *regex;
 	int token_type;
+	int priority;
 } rules[] = {
 
 	/* TODO: Add more rules.
 	 * Pay attention to the precedence level of different rules.
 	 */
-
-	{" +",	NOTYPE},				// spaces
-	{"\\+", '+'},					// plus
-	{"==", EQ}						// equal
+	{"\\b[0-9]+\\b",NUMBER,0}, //number
+	{"\\b0{xX][0-9a-fA-F]+\\b",HNUMBER,0},//16number
+	{"\\$[a-zA-Z]+",REGISTER,0}, //register
+	{"!=",NEQ,3}, //not equal
+	{"!",'!',6}, //not
+	{"\\*",'*',5}, //mul
+	{"/",'/',5},//div
+	{"	+",NOTYPE,0},//tabs
+	{" +",	NOTYPE,0},				// spaces
+	{"\\+", '+',4},					// plus
+	{"-",'-',4},//sub
+	{"==", EQ,3},						// equal
+	{"&&",AND,2},//and
+	{"\\|\\|",OR,1},//or
+	{"\\(",'(',7},//left bracket
+	{"\\)",')',7},//right bracket
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -51,9 +64,10 @@ void init_regex() {
 typedef struct token {
 	int type;
 	char str[32];
+	int priority;
 } Token;
 
-Token tokens[32];
+Token token[32];
 int nr_token;
 
 static bool make_token(char *e) {
@@ -79,8 +93,15 @@ static bool make_token(char *e) {
 				 */
 
 				switch(rules[i].token_type) {
-					default: panic("please implement me");
+					case NOTYPE: break;
+					default: 
+						token[nr_token].type = rules[i].token_type;
+						token[nr_token].priority=rules[i].priority;
+						strncpy(token[nr_token].str,substr_start,substr_len);
+						token[nr_token].str[substr_len]='\0';
+						nr_token ++;
 				}
+				position +=substr_len;
 
 				break;
 			}
