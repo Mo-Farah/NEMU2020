@@ -138,7 +138,7 @@ bool check_similar(int l,int r)
 int dominant_operator(int l,int r)
 {
 	int i,j;
-	int min_priority=8;
+	int min_priority=10;
 	int oper=l;
 	for(i=l;i<=r;i++)
 	{
