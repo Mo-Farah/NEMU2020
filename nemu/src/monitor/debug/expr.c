@@ -138,7 +138,7 @@ bool check_similar(int l,int r)
 int dominant_operator(int l,int r)
 {
 	int i,j;
-	int min_priority=10;
+	int min_priority=8;
 	int oper=l;
 	for(i=l;i<=r;i++)
 	{
@@ -235,8 +235,8 @@ uint32_t eval(int l,int r){
 			break;
 		}
 	}
-		assert(1);
-		return -123456;
+		//assert(1);
+		return 777;
 
 }
 
@@ -246,6 +246,7 @@ uint32_t expr(char *e, bool *success) {
 		*success = false;
 		return 0;
 	}
+	*success=true;
 	int i;
 	for(i=0;i<nr_token;i++){
 		if(token[i].type=='*'&&((i==0 )|| (token[i-1].type!=NUMBER&&token[i-1].type!=HNUMBER&&token[i-1].type!=REGISTER&&token[i-1].type!=')'))){
@@ -259,7 +260,7 @@ uint32_t expr(char *e, bool *success) {
 	} 
 
 	/* TODO: Insert codes to evaluate the expression. */
-	*success = true;	
+		
 	//printf("%d",nr_token-1);
 	return eval(0,nr_token-1);
 }
