@@ -105,7 +105,7 @@ static bool make_token(char *e) {
 				position +=substr_len;
 
 				break;
-			}
+			} 
 		}
 
 		if(i == NR_REGEX) {
@@ -260,7 +260,6 @@ uint32_t expr(char *e, bool *success) {
 	} 
 
 	/* TODO: Insert codes to evaluate the expression. */
-		
 	//printf("%d",nr_token-1);
 	return eval(0,nr_token-1);
 }
