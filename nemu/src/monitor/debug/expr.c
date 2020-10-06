@@ -246,17 +246,17 @@ uint32_t expr(char *e, bool *success) {
 		*success = false;
 		return 0;
 	}
-	/*int i;
+	int i;
 	for(i=0;i<nr_token;i++){
-		if(token[i].type=='*'&&((i==0 )|| token[i-1].type!=NUMBER&&token[i-1].type!=HNUMBER&&token[i-1].type!=REGISTER&&token[i-1].type!=')'))){
+		if(token[i].type=='*'&&((i==0 )|| (token[i-1].type!=NUMBER&&token[i-1].type!=HNUMBER&&token[i-1].type!=REGISTER&&token[i-1].type!=')'))){
 			token[i].type=POINTOR;
 			token[i].priority=6;
 		}
-		if(token[i].type=='-'&&((i==0) || token[i-1].type!=NUMBER&&token[i-1].type!=HNUMBER&&token[i-1].type!=REGISTER&&token[i-1].type!=')'))){
+		if(token[i].type=='-'&&((i==0) || (token[i-1].type!=NUMBER&&token[i-1].type!=HNUMBER&&token[i-1].type!=REGISTER&&token[i-1].type!=')'))){
 			token[i].type=MINUS;
 			token[i].priority=6;
 			}
-	} */
+	} 
 
 	/* TODO: Insert codes to evaluate the expression. */
 	*success = true;	
