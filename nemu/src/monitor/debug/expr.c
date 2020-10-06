@@ -106,6 +106,9 @@ static bool make_token(char *e) {
 
 				break;
 			} 
+			for(i=0;i<nr_token;i++){
+				printf("tokens %d, %s, %d\n",token[i].type,token[i].str,token[i]. priority);
+			}
 		}
 
 		if(i == NR_REGEX) {
