@@ -115,6 +115,7 @@ static bool make_token(char *e) {
 
 	return true; 
 }
+
 bool check_similar(int u,int v)
 {
 	int i;
@@ -131,6 +132,8 @@ bool check_similar(int u,int v)
 	}
 	return false;
 }
+
+
 int dominant_operator(int l,int r)
 {
 	int i,j;
@@ -162,6 +165,7 @@ uint32_t eval(int l,int r){
 	uint32_t num=0;
 	if(token[l].type==NUMBER)
 		sscanf(token[l].str,"%d",&num);
+		return num;
 	if(token[l].type==HNUMBER)
 		sscanf(token[l].str,"%x",&num);
 	if(token[l].type==REGISTER)
