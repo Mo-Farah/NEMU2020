@@ -103,14 +103,14 @@ static bool make_token(char *e) {
 						nr_token ++;
 				}
 				position +=substr_len;
-
+				printf("%d\n",position);
 				break;
 			} 
-			for(i=0;i<nr_token;i++){
+			
+		}
+		for(i=0;i<nr_token;i++){
 				printf("tokens %d, %s, %d\n",token[i].type,token[i].str,token[i]. priority);
 			}
-		}
-
 		if(i == NR_REGEX) {
 			printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
 			return false;
