@@ -103,7 +103,7 @@ static bool make_token(char *e) {
 						nr_token ++;
 				}
 				printf("%d\n",position);
-				position +=substr_len;
+				//position +=substr_len;
 				
 				break;
 			} 
