@@ -102,8 +102,9 @@ static bool make_token(char *e) {
 						token[nr_token].str[substr_len]='\0';
 						nr_token ++;
 				}
-				position +=substr_len;
 				printf("%d\n",position);
+				position +=substr_len;
+				
 				break;
 			} 
 			
