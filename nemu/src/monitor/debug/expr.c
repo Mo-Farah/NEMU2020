@@ -116,19 +116,19 @@ static bool make_token(char *e) {
 	return true; 
 }
 
-bool check_similar(int u,int v)
+bool check_similar(int l,int r)
 {
 	int i;
-	if(token[u].type == '('&&token[v].type ==')')
+	if(token[l].type == '('&&token[r].type ==')')
 	{
-		int uc=0,vc=0;
-		for(i=u+1;i<v;i++)
+		int lc=0,rc=0;
+		for(i=l+1;i<r;i++)
 		{
-			if(token[i].type == '(')uc++;
-			if(token[i].type ==')')vc++;
-			if(vc>uc)return false;
+			if(token[i].type == '(')lc ++;
+			if(token[i].type ==')')rc ++;
+			if(rc>lc)return false;
 		}
-		if(uc==vc)return true;
+		if(lc==rc)return true;
 	}
 	return false;
 }
@@ -165,10 +165,10 @@ uint32_t eval(int l,int r){
 	uint32_t num=0;
 	if(token[l].type==NUMBER)
 		sscanf(token[l].str,"%d",&num);
-		return num;
+	//	return num;
 	if(token[l].type==HNUMBER)
 		sscanf(token[l].str,"%x",&num);
-		return num;
+	//	return num;
 	if(token[l].type==REGISTER)
 		{
 			if(strlen(token[l].str)==3){
@@ -197,16 +197,18 @@ uint32_t eval(int l,int r){
 			}
 			else assert(1);
 		}
+		}
 		return num;
-	}
+		//}
 	}
 	else if(check_similar(l,r)==true)return eval(l+1,r-1);
 	else {
 		int op=dominant_operator(l,r);
-		printf("%d\n",op);
+	//	printf("op = %d\n",op);
 		if(l==op||token[op].type==POINTOR||token[op].type==MINUS||token[op].type=='!')
 		{
 			uint32_t val=eval(l+1,r);
+	//		printf("val=%d\n",val);
 			switch(token[l].type)
 			{
 				case POINTOR: return swaddr_read(val,4);
@@ -217,6 +219,7 @@ uint32_t eval(int l,int r){
 		}
 		uint32_t val1=eval(l,op-1);
 		uint32_t val2=eval(op+1,r);
+		// printf("1=%d,2=%d\n",val1,val2);
 		switch(token[op].type)
 		{
 			case '+':return val1+val2;
