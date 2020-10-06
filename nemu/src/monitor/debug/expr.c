@@ -209,7 +209,7 @@ uint32_t eval(int l,int r){
 			uint32_t val=eval(l+1,r);
 			switch(token[l].type)
 			{
-				case POINTOR: ;return swaddr_read(val,4);
+				case POINTOR: return swaddr_read(val,4);
 				case MINUS:return -val;
 				case '!':return !val;
 				default :Assert(1,"default\n");
