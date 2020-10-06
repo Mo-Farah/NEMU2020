@@ -168,6 +168,7 @@ uint32_t eval(int l,int r){
 		return num;
 	if(token[l].type==HNUMBER)
 		sscanf(token[l].str,"%x",&num);
+		return num;
 	if(token[l].type==REGISTER)
 		{
 			if(strlen(token[l].str)==3){
