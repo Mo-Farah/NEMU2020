@@ -78,7 +78,7 @@ static int cmd_p(char *args) {
 	uint32_t num;
 	bool suc;
 	num = expr (args,&suc);
-	printf("%d",suc);
+	//printf("%d",suc);
 	if(suc)
 		printf ("0x%x:\t%d\n",num,num);
 	else assert(0);
@@ -94,13 +94,13 @@ static int cmd_x(char *args) {
 	char *cmd=strtok(args," ");
 	sscanf(cmd,"%d",&n);
 	args=cmd+strlen(cmd)+1;
-	start_address=expr(args,&suc);
+	start_address=expr (args,&suc);
 	if(!suc)assert(1);
 	printf("0x%08x: ",start_address);
 	//current_sreg=R_DS;
 	for(i=1;i<=n;i++)
 	{
-		printf("0x%08x ",swaddr_read(start_address,4));
+		printf("0x%08x ",swaddr_read (start_address,4));
 		start_address+=4;
 	}
 	printf("\n");
