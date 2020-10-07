@@ -103,7 +103,7 @@ static bool make_token(char *e) {
 						token[nr_token].str[substr_len]='\0';
 						nr_token ++;
 				}
-				printf("%d\n",position);
+				//printf("%d\n",position);
 				//position +=substr_len;
 				
 				break;
@@ -160,7 +160,7 @@ int dominant_operator(int l,int r)
 		if(!key)continue;
 		if(token[i].priority<=min_priority){/*printf("%d\n",min_priority) ;*/min_priority=token[i].priority;oper=i;}
 	}
-	printf("%d\n",oper);
+//	printf("%d\n",oper);
 	return oper;
 }
 

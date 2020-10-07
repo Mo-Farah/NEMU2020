@@ -8,7 +8,7 @@ static WP *head, *free_;
 
 void init_wp_pool() {
 	int i;
-	for(i = 0; i < NR_WP; i ++) {
+	for(i = 1; i < NR_WP; i ++) {
 		wp_list[i].NO = i;
 		wp_list[i].next = &wp_list[i + 1];
 	}
