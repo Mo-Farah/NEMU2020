@@ -83,6 +83,7 @@ static bool make_token(char *e) {
 		for(i = 0; i < NR_REGEX; i ++) {
 			if(regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
 				char *substr_start = e + position;
+				
 				int substr_len = pmatch.rm_eo;
 
 				Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
@@ -157,7 +158,7 @@ int dominant_operator(int l,int r)
 			if(token[j].type==')')cnt ++;
 		}
 		if(!key)continue;
-		if(token[i].priority<=min_priority){printf("%d\n",min_priority) ;min_priority=token[i].priority;oper=i;}
+		if(token[i].priority<=min_priority){/*printf("%d\n",min_priority) ;*/min_priority=token[i].priority;oper=i;}
 	}
 	printf("%d\n",oper);
 	return oper;
