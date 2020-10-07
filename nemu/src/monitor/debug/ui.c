@@ -6,8 +6,20 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-
 void cpu_exec(uint32_t);
+int breakpoint_counter=1;
+extern struct Cache
+{
+	bool valid;
+	int tag;
+	uint8_t data[64];
+}cache[1024];
+uint32_t cache_read(hwaddr_t);
+typedef struct{
+	swaddr_t prev_ebp;
+	swaddr_t ret_addr;
+	uint32_t args[4];
+} Part0fStackFrame;
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
@@ -35,7 +47,6 @@ static int cmd_c(char *args) {
 static int cmd_q(char *args) {
 	return -1;
 }
-
 static int cmd_help(char *args);
 static int cmd_si(char *args) {
 	int num=0;
@@ -54,6 +65,11 @@ static int cmd_info(char *args){
 	}
 	printf("eip\t0x%08x\n",cpu.eip);
 	}
+	else if(args[0]=='w'){
+		info_wp();
+	}
+	
+	else assert(0);
 	return 0;
 }
 
@@ -81,6 +97,7 @@ static int cmd_x(char *args) {
 	start_address=expr(args,&suc);
 	if(!suc)assert(1);
 	printf("0x%08x: ",start_address);
+	//current_sreg=R_DS;
 	for(i=1;i<=n;i++)
 	{
 		printf("0x%08x ",swaddr_read(start_address,4));
@@ -89,6 +106,40 @@ static int cmd_x(char *args) {
 	printf("\n");
 	return 0;
 }
+static int cmd_w(char *args){
+	WP *f;
+	bool suc;
+	f = new_wp();
+	printf("Watchpoint %d: %s\n",f->NO,args);
+	f->val=expr(args,&suc);
+	strcpy(f->expr,args);
+	if(!suc)Assert(1,"wrong\n");
+	printf("Value : %d\n",f->val);
+	return 0;
+}
+
+/*static int cmd_b(char *args){
+	bool suc;
+	swaddr_t addr;
+	addr = expr(args+1,&suc);
+	if(!suc)assert(1);
+	sprintf(args,"$eip==0x%x",addr);
+	printf("Breakpoint %d at 0x%x\n",breakpoint_counter,addr);
+	WP*f;
+	f=new_wp();
+	f->val=expr(args,&suc);
+	f->b=breakpoint_counter;
+	breakpoint_counter++;
+	strcpy(f->expr,args);
+	return 0;
+}*/
+static int cmd_d(char *args){
+	int num;
+	sscanf(args,"%d",&num);
+	delete_wp(num);
+	return 0;
+}
+
 
 static struct {
 	char *name;
@@ -100,9 +151,12 @@ static struct {
 	{ "q", "Exit NEMU", cmd_q },
 	{"si","Step into.",cmd_si},
 	{"info","for print watchpoint information.",cmd_info},
-	{"x","calculate",cmd_x},
-	{"p","Expression evaluation",cmd_p}
 
+	{"x","calculate",cmd_x},
+	{"p","Expression evaluation",cmd_p},
+	{"w","Stop",cmd_w},
+	{"d","Delete",cmd_d},
+	
 	/* TODO: Add more commands */
 
 };
